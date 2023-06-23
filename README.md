@@ -1,6 +1,6 @@
 # scoreDEI project
 
-## Project done under the course Compilers at the University of Coimbra.
+## Project done under the course Distributed Systems at the University of Coimbra.
 
 The project consists in the development of a platform where users can consult and receive updates of sport results of games.
 
