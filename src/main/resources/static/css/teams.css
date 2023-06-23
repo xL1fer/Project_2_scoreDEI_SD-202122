@@ -1,0 +1,49 @@
+.team-container {
+    font-size: 0.4 rem;
+    margin: 0 0 0 0;
+    max-width: 90%;
+    margin-top: 2%;
+    transition: all ease 200ms;
+}
+
+.logo-container {
+    margin-top: 2%;
+    text-align: center;
+    padding: 5px;
+}
+
+.player-container {
+    font-size: 1.4rem;
+    text-align: center;
+    border: 1px solid rgb(200, 200, 200);
+    margin-top: 0.5%;
+}
+
+.team-statistics-container {
+    text-align: center;
+    border: 1px solid rgb(200, 200, 200);
+    margin-top: 0.5%;
+}
+
+.player-statistics-container {
+    text-align: center;
+    margin-top: 0.5%;
+}
+
+ /*     section used in player.html     ************/
+
+.player-table {
+    font-size: 1.2rem;
+    margin: 3% 0 3% 0;
+}
+
+.player-table th {
+    padding: 5px 20px;
+    margin: 8px 30%;
+    box-sizing: border-box;
+    width: 30%;
+}
+
+.describer {
+    font-size: 1.8rem;
+}

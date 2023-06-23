@@ -1,0 +1,99 @@
+ /*     section used in gameList.html     ************/
+
+.list-container {
+    font-size: 0.4 rem;
+    margin: 3% 0 0 25%;
+    max-width: 40%;
+    transition: all ease 200ms;
+}
+
+.game-container {
+    text-align: center;
+    padding: 5px;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 5px;
+    margin-top: 2%;
+}
+
+.pages-container {
+    margin-top: 5%;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.game-container a, .pages-container a {
+    cursor: pointer;
+}
+
+.games-list div {
+    transition: all ease 200ms;
+}
+
+.games-list div:hover {
+    transform: scale(1.1);
+    transition: all ease 200ms;
+}
+
+.pages-container div {
+    transition: all ease 200ms;
+    display: inline-block;
+}
+
+.pages-container div:hover {
+    transform: scale(1.2);
+    transition: all ease 200ms;
+}
+
+ /*     section used in game.html     ************/
+
+.match-container {
+    font-size: 0.4 rem;
+    margin: 2% 0 0 0;
+    max-width: 90%;
+    transition: all ease 200ms;
+}
+
+.logo-container {
+    text-align: center;
+    padding: 5px;
+    border: 1px solid rgb(200, 200, 200);
+    margin-top: 2%;
+}
+
+.logo-container div {
+    margin: 0 7% 0 7%;
+}
+
+.image-box {
+    display: inline-block;   
+}
+
+.image-box a {
+    cursor: pointer;
+}
+
+.result-container {
+    max-width: 20%;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 5px;
+    margin: 2% 0% 0% 40%;
+}
+
+.event-container {
+    text-align: center;
+    padding: 5px;
+}
+
+.event {
+    margin-top: 0.5%;
+    border: 1px solid rgb(200, 200, 200);
+}
+
+.game-error-box {
+    padding: 1%;
+    background-color: rgb(230, 230, 230);
+    border-radius: 3px;
+    font-size: 1.2rem;
+}

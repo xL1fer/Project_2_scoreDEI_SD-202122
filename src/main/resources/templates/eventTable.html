@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!--page's setup-->
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name = "viewport" content = "width=device-width, initial-scale=1">
+
+		<meta name = "description" content = "">
+		<meta name = "author" content = "">
+
+        <title>scoreDEI</title>
+
+		<!--Online method of including fonts-->
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+		
+		<link rel = "stylesheet" href = "/css/mainstyle.css">
+        <link rel = "stylesheet" href = "/css/tables.css">
+		<link rel = "icon" href = "">
+    </head>
+
+    <!--page's content-->
+    <body>
+        <header>
+			<!-- Login nav bar  -->
+			<nav class = "header-nav">
+				<!-- Anonymous user -->
+				<ul th:if="${session.authToken == null}">
+                    <li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{login}">Login</a></li>
+					<!--<li><a th:href="@{register}">Register</a></li>-->
+                    <div class="dragright">
+                        <li><button class="rightbtn">Tables</button></li>
+                        <div class="dragright-content">
+                            <li><a th:href="@{/userTable}">User</a></li>
+                            <li><a th:href="@{/teamTable}">Team</a></li>
+                            <li><a th:href="@{/playerTable}">Player</a></li>
+                            <li><a th:href="@{/gameTable}">Game</a></li>
+                            <li><a th:href="@{/eventTable}">Event</a></li>
+                        </div>
+                    </div>
+                </ul>
+				<!-- User logged in -->
+				<ul th:if="${session.authToken != null}">
+                    <li><a th:href="@{/}">Home</a></li>
+					<li class = "nav-title"><h4><span th:text="${session.username}"/></h4></li>
+					<li>
+						<form th:action="@{/logout}" method="post">
+							<button type="submit">Logout</button>
+						</form>
+					</li>
+                    <div class="dragright">
+                        <li><button class="rightbtn">Tables</button></li>
+                        <div class="dragright-content">
+                            <li><a th:href="@{/userTable}">User</a></li>
+                            <li><a th:href="@{/teamTable}">Team</a></li>
+                            <li><a th:href="@{/playerTable}">Player</a></li>
+                            <li><a th:href="@{/gameTable}">Game</a></li>
+                            <li><a th:href="@{/eventTable}">Event</a></li>
+                        </div>
+                    </div>
+                </ul>
+			</nav>
+        </header>
+
+        <main>
+			<!-- Main menu nav bar  -->
+			<nav class = "main-nav">
+				<ul>
+                    <h2><li class="nav-title">scoreDEI</li></h2>
+					<h4>
+                        <li class="nav-title">Event Table</li>
+                        <a style="font-size: 1.2rem;" th:href="@{/createEvent}">Create Event</a>
+                    </h4>
+
+                    <div class="event-tables-error-box" th:if="${errors != null}">
+                        <p th:each="err : ${errors}" th:text="${err}"></p>
+                    </div>
+
+                    <span class="tables-span">
+                        <h2><li>Goal Table</li></h2>
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>MINUTE</th>
+                                <th>DESCRIPTION</th>
+                                <th>GAME</th>
+                                <th>PLAYER</th>
+                                <th></th>
+                            </tr>
+                            <tr th:each="e : ${events}">
+                                <span th:if="${e.eventType == 1}">
+                                    <td th:text="${e.id}">id</td>
+                                    <td th:text="${e.minute}">minute</td>
+                                    <td th:text="${e.descriptionParser()}">description</td>
+                                    <td th:text="${e.game.toString()}"></td>
+                                    <td th:text="${e.scorer_foulMaker.firstname}"></td>
+                                    <td><a th:href="@{/editEvent(id=${e.id})}">Edit</a></td>
+                                </span>
+                            </tr>
+                        </table>
+
+                        <h2><li>Interruption Table</li></h2>
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>MINUTE</th>
+                                <th>DESCRIPTION</th>
+                                <th>GAME</th>
+                                <th></th>
+                            </tr>
+                            <tr th:each="e : ${events}">
+                                <span th:if="${e.eventType == 2}">
+                                    <td th:text="${e.id}">id</td>
+                                    <td th:text="${e.minute}">minute</td>
+                                    <td th:text="${e.descriptionParser()}">description</td>
+                                    <td th:text="${e.game.toString()}"></td>
+                                    <td><a th:href="@{/editEvent(id=${e.id})}">Edit</a></td>
+                                </span>
+                            </tr>
+                        </table>
+
+                        <h2><li>Foul Table</li></h2>
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>MINUTE</th>
+                                <th>DESCRIPTION</th>
+                                <th>GAME</th>
+                                <th>PLAYER</th>
+                                <th></th>
+                            </tr>
+                            <tr th:each="e : ${events}">
+                                <span th:if="${e.eventType == 3}">
+                                    <td th:text="${e.id}">id</td>
+                                    <td th:text="${e.minute}">minute</td>
+                                    <td th:text="${e.descriptionParser()}">description</td>
+                                    <td th:text="${e.game.toString()}"></td>
+                                    <td th:text="${e.scorer_foulMaker.firstname}"></td>
+                                    <td><a th:href="@{/editEvent(id=${e.id})}">Edit</a></td>
+                                </span>
+                            </tr>
+                        </table>
+
+                        <h2><li>Substitution Table</li></h2>
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>MINUTE</th>
+                                <th>DESCRIPTION</th>
+                                <th>GAME</th>
+                                <th>PLAYER&nbsp;IN</th>
+                                <th>PLAYER&nbsp;OUT</th>
+                                <th></th>
+                            </tr>
+                            <tr th:each="e : ${events}">
+                                <span th:if="${e.eventType == 4}">
+                                    <td th:text="${e.id}">id</td>
+                                    <td th:text="${e.minute}">minute</td>
+                                    <td th:text="${e.description}">description</td>
+                                    <td th:text="${e.game.toString()}"></td>
+                                    <td th:text="${e.playerIn.firstname}"></td>
+                                    <td th:text="${e.playerOut.firstname}"></td>
+                                    <td><a th:href="@{/editEvent(id=${e.id})}">Edit</a></td>
+                                </span>
+                            </tr>
+                        </table>
+                    </span>
+                </ul>
+			</nav>
+        </main>
+
+        <footer>
+
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,234 @@
+/*
+::SOME NOTES::
+>> Aplica para todos os quatro lados
+margin: 1em;
+
+>> vertical | horizontal
+margin: 5% auto;
+
+>> topo | horizontal | inferior
+margin: 1em auto 2em;
+
+>> topo | direita | inferior | esquerda
+margin: 2px 1em 0 auto;
+*/
+
+* {
+	margin: 0;
+	padding: 0;      /* add some padding to right side to avoid text outside screen */
+	box-sizing: border-box;
+	font-family: 'Open Sans', sans-serif;
+  color: rgb(85, 85, 85);
+}
+
+/* remove buttons style from both "main-nav" and "header-nav" classes */
+.main-nav button, .header-nav button {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+button[type="submit"] {
+  font-size: inherit;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: inherit;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover, .main-nav button:hover {
+  color: black;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0 0 1% 0;
+  list-style: none;
+}
+
+.main-nav ul {
+  margin: 0;
+  padding-bottom: 400px;
+  list-style: none;
+}
+
+nav li {
+  display: inline-block;
+  margin: 0 0;
+  padding: 0% 1%;
+  transition: all ease 200ms;
+}
+
+.header-nav {
+  margin: 10% 0% 0% 5%;
+  font-size: 1.8rem;
+}
+
+.main-nav {
+  margin: 4% 0% 0% 10%;
+  font-size: 2rem;
+}
+
+nav li:not(.nav-title):hover {
+  transform: scale(1.1);
+  transition: all ease 200ms;
+}
+
+/* navigation menus' animations ***************/
+
+.header-nav {
+  overflow:hidden;
+}
+.header-nav ul {
+  animation: 1s slide-right;
+}
+
+.main-nav {
+  overflow:hidden;
+}
+.main-nav ul {
+  animation: 1s slide-down;
+  margin-top:0%;
+}
+
+@keyframes slide-right {
+  from {
+    margin-left: -100%;
+    width: 300%; 
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    margin-top: -100%;
+    height: 300%; 
+  }
+
+  to {
+    margin-top: 0%;
+    height: 100%;
+  }
+}
+
+/* drop down menu ***************/
+
+/* Dropdown Button */
+.dropbtn {
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  font-size: 1.4rem;
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  padding: 12px 4px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {color: black;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  animation: fadeIn ease 400ms;
+  margin-top:0%;
+  display: block;
+}
+
+@keyframes fadeIn {
+  /* transition */
+  from {
+    margin-top: -50%;
+    height: 300%; 
+  }
+
+  to {
+    margin-top: 0%;
+    height: 100%;
+  }
+
+  /* fade in */
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+/* drag right menu ***************/
+
+.dragright {
+  position: relative;
+  display: inline;
+}
+
+.dragright-content {
+  display:none;
+}
+
+.dragright:hover .dragright-content {
+  animation: fadeInRight ease 400ms;
+  margin-top:0%;
+  display: inline;
+}
+
+@keyframes fadeInRight {
+  /* transition */
+  from {
+      width: 300%; 
+  }
+
+  to {
+      margin-left: 0%;
+      width: 100%;
+  }
+
+  /* fade in */
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+/* others ***************/
+
+.error-box {
+  float: left;
+  margin-left: 10%;
+  padding: 1%;
+  background-color: rgb(230, 230, 230);
+  border-radius: 3px;
+  font-size: 1.2rem;
+}
+
+.filter-box a {
+  border: 1px solid grey;
+  padding: 0.5%;
+}

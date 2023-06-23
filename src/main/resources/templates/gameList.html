@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!--page's setup-->
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name = "viewport" content = "width=device-width, initial-scale=1">
+
+		<meta name = "description" content = "">
+		<meta name = "author" content = "">
+
+        <title>scoreDEI</title>
+
+		<!--Online method of including fonts-->
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+		
+		<link rel = "stylesheet" href = "/css/mainstyle.css">
+        <link rel = "stylesheet" href = "/css/games.css">
+		<link rel = "icon" href = "">
+    </head>
+
+    <!--page's content-->
+    <body>
+        <header>
+			<!-- Login nav bar  -->
+			<nav class = "header-nav">
+				<!-- Anonymous user -->
+				<ul th:if="${session.authToken == null}">
+                    <li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{login}">Login</a></li>
+					<!--<li><a th:href="@{register}">Register</a></li>-->
+                </ul>
+				<!-- User logged in -->
+				<ul th:if="${session.authToken != null}">
+                    <li><a th:href="@{/}">Home</a></li>
+					<li class = "nav-title"><h4><span th:text="${session.username}"/></h4></li>
+					<li>
+						<form th:action="@{/logout}" method="post">
+							<button type="submit">Logout</button>
+						</form>
+					</li>
+                </ul>
+			</nav>
+        </header>
+
+        <main>
+			<!-- Main menu nav bar  -->
+			<nav class = "main-nav">
+				<ul>
+                    <h2><li class="nav-title">scoreDEI&nbsp;Game&nbsp;List</li></h2>
+                    <div style="max-width: 90%; margin: 1% 0 1% 0" class="game-error-box" th:if="${errors != null}">
+                        <p th:each="err : ${errors}" th:text="${err}"></p>
+                    </div>
+					<h4>
+                        <li class="nav-title">Filter</li>
+                        <span class="filter-box" th:if="${finished == false}">
+                            <a style="font-size: 1.2rem;" th:href="@{/gameList?running={isRunning}&finished=true&page={nextPage}(nextPage=${page}, isRunning=${running})}">Finished</a>
+                        </span>
+                        <span class="filter-box" th:if="${finished == true}">
+                            <a style="font-size: 1.2rem;" th:href="@{/gameList?running={isRunning}&finished=false&page={nextPage}(nextPage=${page}, isRunning=${running})}">Finished&nbsp;&check;</a>
+                        </span>
+
+                        <span class="filter-box" th:if="${running == false}">
+                            <a style="font-size: 1.2rem;" th:href="@{/gameList?running=true&finished={isFinished}&page={nextPage}(nextPage=${page}, isFinished=${finished})}">Running</a>
+                        </span>
+                        <span class="filter-box" th:if="${running == true}">
+                            <a style="font-size: 1.2rem;" th:href="@{/gameList?running=false&finished={isFinished}&page={nextPage}(nextPage=${page}, isFinished=${finished})}">Running&nbsp;&check;</a>
+                        </span>
+                    </h4>
+                    <div class="list-container">
+                        <div class="games-list" th:each="game : ${games}">
+                            <div class="game-container">
+                                <a th:text="${game.toString()}" th:href="@{/game?id={gameId}(gameId=${game.id})}"></a>
+                            </div>
+                        </div>
+
+                        <div class="pages-container">
+                            <div><a th:if="${page gt 1}" th:href="@{/gameList?page={nextPage}(nextPage=${page-1})}">&lt;</a></div>
+                            <span th:text="${page}"></span>
+                            <span>/</span>
+                            <span th:text="${maxPages}"></span>
+                            <div><a th:if="${page lt maxPages}" th:href="@{/gameList?page={nextPage}(nextPage=${page+1})}">&gt;</a></div>
+                        </div>
+                    </div>
+
+                </ul>
+			</nav>
+        </main>
+
+        <footer>
+
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!--page's setup-->
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name = "viewport" content = "width=device-width, initial-scale=1">
+
+		<meta name = "description" content = "">
+		<meta name = "author" content = "">
+
+        <title>scoreDEI</title>
+
+		<!--Online method of including fonts-->
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+		
+		<link rel = "stylesheet" href = "/css/mainstyle.css">
+        <link rel = "stylesheet" href = "/css/teams.css">
+		<link rel = "icon" href = "">
+    </head>
+
+    <!--page's content-->
+    <body>
+        <header>
+			<!-- Login nav bar  -->
+			<nav class = "header-nav">
+				<!-- Anonymous user -->
+				<ul th:if="${session.authToken == null}">
+                    <li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{login}">Login</a></li>
+					<!--<li><a th:href="@{register}">Register</a></li>-->
+                </ul>
+				<!-- User logged in -->
+				<ul th:if="${session.authToken != null}">
+                    <li><a th:href="@{/}">Home</a></li>
+					<li class = "nav-title"><h4><span th:text="${session.username}"/></h4></li>
+					<li>
+						<form th:action="@{/logout}" method="post">
+							<button type="submit">Logout</button>
+						</form>
+					</li>
+                </ul>
+			</nav>
+        </header>
+
+        <main>
+			<!-- Main menu nav bar  -->
+			<nav class = "main-nav">
+				<ul>
+                    <h2><li class="nav-title">scoreDEI&nbsp;Statistics</li></h2>
+                    <div th:if="${bestScorer != null}" class="team-container">
+                        <div class="player-statistics-container">
+                            <a th:href="@{/player?id={playerId}(playerId=${bestScorer.getId()})}" th:text="'Best Scorer | ' + ${bestScorer.getFirstname()} + ' ' + ${bestScorer.getLastname()}"></a>
+                        </div>
+                    </div>
+                    <h4>
+                        <li class="nav-title">Filter</li>
+                        <span class="filter-box">
+                            <a style="font-size: 1.2rem;" th:href="@{/statistics?filter=wins}">Wins<span th:if="${filter == 'wins'}">&nbsp;&check;</span></a>
+                        </span>
+                        <span class="filter-box">
+                            <a style="font-size: 1.2rem;" th:href="@{/statistics?filter=defeats}">Defeats<span th:if="${filter == 'defeats'}">&nbsp;&check;</span></a>
+                        </span>
+                        <span class="filter-box">
+                            <a style="font-size: 1.2rem;" th:href="@{/statistics?filter=draws}">Draws<span th:if="${filter == 'draws'}">&nbsp;&check;</span></a>
+                        </span>
+                    </h4>
+
+                    <div class="team-container">
+                        <div class="team-statistics-container" th:each="team: ${teams}">
+                            <a th:href="@{/team?id={teamId}(teamId=${team.getId()})}" style="cursor:pointer;" th:text="${team.getName()}"></a>
+                            <div style="font-size: 1.4rem">
+                                <span th:text="'Wins ' + ${team.getWonGames()} + ' | Defeats ' + ${team.getLostGames()} + ' | Draws ' + ${team.getTiedGames()}"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-box" th:if="${errors != null}">
+                        <p th:each="err : ${errors}" th:text="${err}"></p>
+                    </div>
+                </ul>
+			</nav>
+        </main>
+
+        <footer>
+
+        </footer>
+    </body>
+</html>

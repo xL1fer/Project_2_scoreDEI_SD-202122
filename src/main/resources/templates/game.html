@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!--page's setup-->
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name = "viewport" content = "width=device-width, initial-scale=1">
+
+		<meta name = "description" content = "">
+		<meta name = "author" content = "">
+
+        <title>scoreDEI</title>
+
+		<!--Online method of including fonts-->
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+		
+		<link rel = "stylesheet" href = "/css/mainstyle.css">
+        <link rel = "stylesheet" href = "/css/games.css">
+		<link rel = "icon" href = "">
+    </head>
+
+    <!--page's content-->
+    <body>
+        <header>
+			<!-- Login nav bar  -->
+			<nav class = "header-nav">
+				<!-- Anonymous user -->
+				<ul th:if="${session.authToken == null}">
+                    <li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{login}">Login</a></li>
+					<!--<li><a th:href="@{register}">Register</a></li>-->
+                    <li><a th:href="@{gameList}">Game&nbsp;List</a></li>
+                </ul>
+				<!-- User logged in -->
+				<ul th:if="${session.authToken != null}">
+                    <li><a th:href="@{/}">Home</a></li>
+					<li class = "nav-title"><h4><span th:text="${session.username}"/></h4></li>
+					<li>
+						<form th:action="@{/logout}" method="post">
+							<button type="submit">Logout</button>
+						</form>
+					</li>
+                    <li><a th:href="@{gameList}">Game&nbsp;List</a></li>
+                </ul>
+			</nav>
+        </header>
+
+        <main>
+			<!-- Main menu nav bar  -->
+			<nav class = "main-nav">
+				<ul>
+                    <h2><li class="nav-title">scoreDEI&nbsp;Game</li></h2>
+
+                    <h4>
+                        <li class="nav-title"><span th:if="${game != null}" th:text="${game.toString()} + ' | ' + ${game.location}"></span></li>
+                    </h4>
+
+                    <div span th:if="${game != null}" class="match-container">
+                        <div class="game-error-box" th:if="${errors != null}">
+                            <p th:each="err : ${errors}" th:text="${err}"></p>
+                        </div>
+
+                        <div class="logo-container">
+                            <div class="image-box">
+                                <a th:href="@{/team?id={teamId}(teamId=${game.homeTeam.getId()})}"><img th:src="@{${game.homeTeam.logo}}"/></a>
+                                <div><a th:href="@{/team?id={teamId}(teamId=${game.homeTeam.getId()})}" th:text="${game.homeTeam.getName()}"></a></div>
+                            </div>
+                            <span style="font-size: 3rem;">VS</span>
+                            <div class="image-box">
+                                <a th:href="@{/team?id={teamId}(teamId=${game.awayTeam.getId()})}"><img th:src="@{${game.awayTeam.logo}}"/></a>
+                                <div><a th:href="@{/team?id={teamId}(teamId=${game.awayTeam.getId()})}" th:text="${game.awayTeam.getName()}"></a></div>
+                            </div>
+                        </div>
+
+                        <div class="result-container">
+                            <span th:text=${game.homeGoals}></span>
+                            <span>:</span>
+                            <span th:text=${game.awayGoals}></span>
+                        </div>
+
+                        <!--
+                        <a th:href="@{/addEvent}" style="cursor:pointer; margin-left: 1.5%; font-size: 1.4rem;">Add&nbsp;Event</a>
+                        -->
+                        
+                        <li th:if="${session.authToken != null and !game.isFinished()}">
+                            <form style="cursor:pointer; font-size: 1.4rem;" th:action="@{/addEvent}" th:object="${game}" method="post">
+                                <input type="hidden" th:field="*{id}">
+                                <button type="submit">Add&nbsp;Event</button>
+                            </form>
+                        </li>
+                        
+                        <div class="event-container" style="font-size: 1.5rem;">
+                            <div class="event" th:each="event : ${eventList}">
+
+                                <div th:if="${event.getEventType() == 1}">
+                                    <div th:if="${event.getScorer_foulMaker().getTeam().getId() == game.getHomeTeam().getId()}"
+                                        th:text="'&lt; ' + ${event.descriptionParser} + ' Goal: ' + ${event.getScorer_foulMaker().getFirstname()} + ' (' + ${event.getMinute()} + ')'" style="text-align: left;"></div>
+                                    <div th:if="${event.getScorer_foulMaker().getTeam().getId() == game.getAwayTeam().getId()}"
+                                        th:text="${event.descriptionParser} + ' Goal: ' + ${event.getScorer_foulMaker().getFirstname()} + ' (' + ${event.getMinute()} + ') &gt;'" style="text-align: right;"></div>
+                                </div>
+
+                                <div th:if="${event.getEventType() == 2}">
+                                    <div th:if="${event.getDescription() == 1}"
+                                        th:text="'&lt; Game started (0) &gt;'"></div>
+                                    <div th:if="${event.getDescription() == 2}"
+                                        th:text="'&lt; Game stopped (' + ${event.getMinute()} + ') &gt;'"></div>
+                                    <div th:if="${event.getDescription() == 3}"
+                                        th:text="'&lt; Game resumed (' + ${event.getMinute()} + ') &gt;'"></div>
+                                    <div th:if="${event.getDescription() == 4}"
+                                        th:text="'&lt; Game finished (' + ${event.getMinute()} + ') &gt;'"></div>
+                                </div>
+
+                                <div th:if="${event.getEventType() == 3}">
+                                    <div th:if="${event.getScorer_foulMaker().getTeam().getId() == game.getHomeTeam().getId()}"
+                                        th:text="'&lt; ' + ${event.descriptionParser} + ' Card: ' + ${event.getScorer_foulMaker().getFirstname()} + ' (' + ${event.getMinute()} + ')'" style="text-align: left;"></div>
+                                    <div th:if="${event.getScorer_foulMaker().getTeam().getId() == game.getAwayTeam().getId()}"
+                                        th:text="${event.descriptionParser} + ' Card: ' + ${event.getScorer_foulMaker().getFirstname()} + ' (' + ${event.getMinute()} + ') &gt;'" style="text-align: right;"></div>
+                                </div>
+
+                                <div th:if="${event.getEventType() == 4}">
+                                    <div th:if="${event.getPlayerIn().getTeam().getId() == game.getHomeTeam().getId()}"
+                                        th:text="'&lt; Substitution: Player in: ' + ${event.getPlayerIn().getFirstname()} + ', Player out: ' + ${event.getPlayerOut().getFirstname()} + ' (' + ${event.getMinute()} + ')'" style="text-align: left;"></div>
+                                    <div th:if="${event.getPlayerIn().getTeam().getId() == game.getAwayTeam().getId()}"
+                                        th:text="'Substitution: Player in: ' + ${event.getPlayerIn().getFirstname()} + ', Player out: ' + ${event.getPlayerOut().getFirstname()} + ' (' + ${event.getMinute()} + ') &gt;'" style="text-align: right;"></div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </ul>
+			</nav>
+        </main>
+
+        <footer>
+
+        </footer>
+    </body>
+</html>

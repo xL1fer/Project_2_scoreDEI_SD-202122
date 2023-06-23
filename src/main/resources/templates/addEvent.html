@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!--page's setup-->
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name = "viewport" content = "width=device-width, initial-scale=1">
+
+		<meta name = "description" content = "">
+		<meta name = "author" content = "">
+
+        <title>scoreDEI</title>
+
+		<!--Online method of including fonts-->
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+		
+		<link rel = "stylesheet" href = "/css/mainstyle.css">
+        <link rel = "stylesheet" href = "/css/login.css">
+        <script src="js/events.js" defer></script>
+		<link rel = "icon" href = "">
+    </head>
+
+    <!--page's content-->
+    <body>
+        <header>
+			<!-- Login nav bar  -->
+			<nav class = "header-nav">
+				<!-- Anonymous user -->
+				<ul th:if="${session.authToken == null}">
+                    <li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{login}">Login</a></li>
+                    <!--<li><a th:href="@{register}">Register</a></li>-->
+                    <li><a th:href="@{gameList}">Game&nbsp;List</a></li>
+                </ul>
+				<!-- User logged in -->
+				<ul th:if="${session.authToken != null}">
+                    <li><a th:href="@{/}">Home</a></li>
+					<li class = "nav-title"><h4><span th:text="${session.username}"/></h4></li>
+					<li>
+						<form th:action="@{/logout}" method="post">
+							<button type="submit">Logout</button>
+						</form>
+					</li>
+                    <li><a th:href="@{gameList}">Game&nbsp;List</a></li>
+                </ul>
+			</nav>
+        </header>
+
+        <main>
+			<!-- Main menu nav bar  -->
+			<nav class="main-nav">
+				<ul>
+                    <h2><li class="nav-title">scoreDEI&nbsp;Add&nbsp;Event</li></h2>
+					
+                    <table class="input-form">
+                        <form th:action="@{/saveUserEvent}" th:object="${event}" method="post">
+                            <tr>
+                                <th><input type="hidden" th:field="*{minute}"></th>
+                            </tr>
+                            <tr>
+                                <th><input type="hidden" th:field="*{id}"></th>
+                            </tr>
+                            <tr>
+                                <th><input type="hidden" th:field="*{game.id}"></th>
+                            </tr>
+                            <tr>
+                                <th><label>Minute</label></th>
+                                <th><div class="div-table-row" th:text="*{minute}"></div>
+                            </tr>
+                            <tr>
+                                <th><label>Game</label></th>
+                                <th><div class="div-table-row" th:text="*{game.toString()}"></div>
+                            </tr>
+                            <tr>
+                                <th><label>EventType</label></th>
+                                <!--<th><input type="number" min="1" max="4" th:field="*{eventType}"></th>-->
+                                <th>
+                                    <select id="event-handler" th:field="*{eventType}" onchange='EventHandler(this.value);'>
+                                        <option value="1">Goal</option>
+                                        <option value="2">Interruption</option>
+                                        <option value="3">Foul</option>
+                                        <option value="4">Substitution</option>
+                                    </select>
+                                </th>
+                            </tr>
+                            <tr>
+                                <!--
+                                    <th><label>Description</label></th>
+                                    <th><input type="text" th:field="*{description}"></th>
+                                -->
+                                <th><label>Description</label></th>
+                                
+                                <th>
+                                    <select id="description-options" th:field="*{description}">
+                                        <!-- options are automatically generated in "events.js" -->
+                                    </select>
+                                </th>
+                            </tr>
+                            <tr id="event-goal-foul" style="display:none; margin-left: 3%;">
+                                <th><label>Player</label></th>
+                                <th>
+                                    <select th:field="*{scorer_foulMaker}">
+                                        <option th:each="player: ${players}" th:value=${player.id} th:text="${player.toString()}"></option>
+                                    </select>
+                                </th>
+                            </tr>
+
+                            <tr id="event-substitution-in" style="display:none; margin-left: 3%;">
+                                <th><label>Player&nbsp;In</label></th>
+                                <th>
+                                    <select th:field="*{playerIn}">
+                                        <option th:each="player: ${players}" th:value=${player.id} th:text="${player.toString()}"></option>
+                                    </select>
+                                </th>
+                            </tr>
+
+                            <tr id="event-substitution-out" style="display:none; margin-left: 3%;">
+                                <th><label>Player&nbsp;Out</label></th>
+                                <th>
+                                    <select th:field="*{playerOut}">
+                                        <option th:each="player: ${players}" th:value=${player.id} th:text="${player.toString()}"></option>
+                                    </select>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th class="submit-box"><li><input type="submit" value="Edit/Create Event"></li></th>
+                            </tr>
+                            
+                        </form>
+                    </table>
+                    <div class="error-box" th:if="${errors != null}">
+                        <p th:each="err : ${errors}" th:text="${err}"></p>
+                    </div>
+
+                </ul>
+			</nav>
+        </main>
+
+        <footer>
+
+        </footer>
+    </body>
+</html>

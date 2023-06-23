@@ -1,0 +1,11 @@
+# scoreDEI project
+
+## Project done under the course Compilers at the University of Coimbra.
+
+The project consists in the development of a platform where users can consult and receive updates of sport results of games.
+
+- The platform front end Web system is programmed using Spring Boot and Thymeleaf
+
+- The database is programmed through Java Persistence Application Programming Interface (JPA) and the database system used is PostgreSQL
+
+- There is an integration with the external service api-sports.io by using REST technology

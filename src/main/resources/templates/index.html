@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!--page's setup-->
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name = "viewport" content = "width=device-width, initial-scale=1">
+
+		<meta name = "description" content = "">
+		<meta name = "author" content = "">
+
+        <title>scoreDEI</title>
+
+		<!--Online method of including fonts-->
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+		
+		<link rel = "stylesheet" href = "/css/mainstyle.css">
+		<link rel = "icon" href = "">
+    </head>
+
+    <!--page's content-->
+    <body>
+        <header>
+			<!-- Login nav bar  -->
+			<nav class = "header-nav">
+				<!-- Anonymous user -->
+				<ul th:if="${session.authToken == null}">
+					<li><a th:href="@{login}">Login</a></li>
+					<!--<li><a th:href="@{register}">Register</a></li>-->
+                </ul>
+				<!-- User logged in -->
+				<ul th:if="${session.authToken != null}">
+					<li class = "nav-title"><h4><span th:text="${session.username}"/></h4></li>
+					<li>
+						<form th:action="@{/logout}" method="post">
+							<button type="submit">Logout</button>
+						</form>
+					</li>
+                </ul>
+			</nav>
+        </header>
+
+        <main>
+			<!-- Main menu nav bar  -->
+			<nav class = "main-nav">
+				<ul>
+                    <h2><li class="nav-title">scoreDEI</li></h2>
+					
+					<!-- We cant do this way because /addTeamsAPI and /GenerateAPITeams are "@PostMapping"s
+					<li><a th:href="@{addTeamsAPI}">GenerateAPITeams</a></li>
+					<li><a th:href="@{GenerateAPITeams}">GenerateAPIPlayers</a></li>
+					-->
+
+					<li><a th:href="@{/gameList}">Game&nbsp;List</a></li>
+
+					<li><a th:href="@{/statistics}">Statistics</a></li>
+
+					<li>
+						<form th:action="@{/addAPIData}" method="post">
+							<button type="submit">GenerateAPIData</button>
+						</form>
+					</li>
+
+                    <li>
+						<div class="dropdown">
+							<button class="dropbtn">Tables</button>
+							<div class="dropdown-content">
+								<a th:href="@{/userTable}">User</a>
+								<a th:href="@{/teamTable}">Team</a>
+								<a th:href="@{/playerTable}">Player</a>
+								<a th:href="@{/gameTable}">Game</a>
+								<a th:href="@{/eventTable}">Event</a>
+							</div>
+						</div>
+					</li>
+					
+					<div th:if="${apiTeamsMessage != null}">
+						<li style="font-size: 1.0rem;" class = "nav-title"><p th:text="${apiTeamsMessage}"/></li>
+					</div>
+					<div th:if="${apiPlayersMessage != null}">
+						<li style="font-size: 1.0rem;" class = "nav-title"><p th:text="${apiPlayersMessage}"/></li>
+					</div>
+
+					<div th:if="${errors != null}">
+						<li style="font-size: 1.0rem;" class = "nav-title"><p th:each="err : ${errors}" th:text="${err}"></p></li>
+					</div>
+                </ul>
+			</nav>
+        </main>
+
+        <footer>
+
+        </footer>
+    </body>
+</html>

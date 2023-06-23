@@ -1,0 +1,48 @@
+label {
+    margin-left: 10%;
+}
+
+th {
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+    padding: 0% 0%;
+	outline: inherit;
+}
+
+input[type="submit"] {
+    font-size: 1.4rem;
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	outline: inherit;
+}
+
+input[type="text"], input[type="password"], input[type="date"], input[type="datetime-local"], input[type="number"], select {
+    border-radius:3px;
+    border:1px solid rgb(209, 209, 209);
+    padding: 8px 20px;
+    margin: 8px 30%;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.submit-box, label {
+    float: left;
+    margin-left: 10%;
+}
+
+input[type="submit"]:hover {
+    color: black;
+}
+
+.div-table-row {
+    margin: 0 30%;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+}
