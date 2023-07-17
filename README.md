@@ -2,7 +2,7 @@
 
 ## Project done under the course Distributed Systems at the University of Coimbra
 
-The project consists in the development of a platform where users can consult and receive updates of sport results of games
+The project consists in the development of a platform where users can consult and receive updates of sports games results
 
 - The platform front end Web system is programmed using web languages (css, html, javascript), Spring Boot and Thymeleaf
 
